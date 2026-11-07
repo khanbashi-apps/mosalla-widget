@@ -69,7 +69,7 @@ struct W20: Widget {
 struct W21: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "k21", provider: P()) { _ in
-            Label2(num: "21", title: "static clear")
+            VStack { Label2(num: "21", title: "static clear"); Text(Bundle.main.bundleIdentifier ?? "-").font(.system(size: 9)).foregroundStyle(.white) }
                 .containerBackground(Color.clear, for: .widget)
         }
         .configurationDisplayName("21 شفاف")
