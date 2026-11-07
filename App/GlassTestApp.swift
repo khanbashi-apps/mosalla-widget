@@ -21,6 +21,23 @@ func provisionInfo(_ url: URL) -> String {
     return out.joined(separator: "\n")
 }
 
+// يقرأ الصلاحيات الموقّعة داخل ملف تنفيذي (من توقيع الكود نفسه)
+func signedEntitlements(_ url: URL?) -> String {
+    guard let url, let d = try? Data(contentsOf: url) else { return "تعذر قراءة الملف" }
+    let s = String(decoding: d, as: UTF8.self)
+    var out: [String] = []
+    var r = s.startIndex..<s.endIndex
+    while let a = s.range(of: "<?xml", range: r), let b = s.range(of: "</plist>", range: a.upperBound..<s.endIndex) {
+        let xml = String(s[a.lowerBound..<b.upperBound])
+        if xml.contains("application-identifier") || xml.contains("team-identifier"),
+           let p = try? PropertyListSerialization.propertyList(from: Data(xml.utf8), format: nil) as? [String: Any] {
+            for k in p.keys.sorted() { out.append("  \(k) = \(p[k]!)") }
+        }
+        r = b.upperBound..<s.endIndex
+    }
+    return out.isEmpty ? "لا توجد صلاحيات" : out.joined(separator: "\n")
+}
+
 @main
 struct GlassTestApp: App {
     var body: some Scene {
@@ -35,6 +52,10 @@ struct GlassTestApp: App {
                     Text(provisionInfo(Bundle.main.bundleURL.appendingPathComponent("embedded.mobileprovision")))
                     Text("— الويدجت —").bold()
                     Text(ax.map { provisionInfo($0.appendingPathComponent("embedded.mobileprovision")) } ?? "-")
+                    Text("— صلاحيات التطبيق الموقّعة —").bold()
+                    Text(signedEntitlements(Bundle.main.executableURL))
+                    Text("— صلاحيات الويدجت الموقّعة —").bold()
+                    Text(signedEntitlements(ax.flatMap { Bundle(url: $0)?.executableURL }))
                 }
                 .font(.system(size: 12, design: .monospaced))
                 .textSelection(.enabled)

@@ -9,8 +9,8 @@ settings:
     CODE_SIGNING_ALLOWED: "NO"
     CODE_SIGNING_REQUIRED: "NO"
     CODE_SIGN_IDENTITY: ""
-    MARKETING_VERSION: "1.5"
-    CURRENT_PROJECT_VERSION: "6"
+    MARKETING_VERSION: "1.6"
+    CURRENT_PROJECT_VERSION: "7"
     TARGETED_DEVICE_FAMILY: "1"
 targets:
   GlassTest:
@@ -19,7 +19,7 @@ targets:
     sources: [App]
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: om.mosalla.glasstest
+        PRODUCT_BUNDLE_IDENTIFIER: j3meel.p12.5051015347
         GENERATE_INFOPLIST_FILE: "YES"
         INFOPLIST_KEY_UILaunchScreen_Generation: "YES"
         INFOPLIST_KEY_CFBundleDisplayName: "تجربة الزجاج"
@@ -40,4 +40,4 @@ targets:
         NSWidgetBackgroundColorName: WidgetBackground
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: om.mosalla.glasstest.widget
+        PRODUCT_BUNDLE_IDENTIFIER: j3meel.p12.5051015347.widget
