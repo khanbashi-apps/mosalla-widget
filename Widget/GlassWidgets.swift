@@ -37,95 +37,80 @@ struct Label2: View {
 }
 
 
-struct W6: Widget {
+struct W14: Widget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "g6", provider: P()) { _ in
-            Label2(num: "6", title: "AccessoryBG")
-                .containerBackground(for: .widget) { AccessoryWidgetBackground() }
+        StaticConfiguration(kind: "h14", provider: P()) { _ in
+            Label2(num: "14", title: "clear + notRemovable")
+                .containerBackground(for: .widget) { Color.clear }
         }
-        .configurationDisplayName("6 Accessory")
+        .configurationDisplayName("14 clear+fixed")
         .supportedFamilies([.systemSmall, .systemMedium])
+        .containerBackgroundRemovable(false)
     }
 }
 
-struct W7: Widget {
+struct W15: Widget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "g7", provider: P()) { _ in
-            Label2(num: "7", title: "style .background")
-                .containerBackground(.background, for: .widget)
+        StaticConfiguration(kind: "h15", provider: P()) { _ in
+            Label2(num: "15", title: "material + notRemovable")
+                .containerBackground(.ultraThinMaterial, for: .widget)
         }
-        .configurationDisplayName("7 background")
+        .configurationDisplayName("15 material+fixed")
         .supportedFamilies([.systemSmall, .systemMedium])
+        .containerBackgroundRemovable(false)
     }
 }
 
-struct W8: Widget {
+struct W16: Widget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "g8", provider: P()) { _ in
-            Label2(num: "8", title: "style .fill")
-                .containerBackground(.fill.secondary, for: .widget)
-        }
-        .configurationDisplayName("8 fill")
-        .supportedFamilies([.systemSmall, .systemMedium])
-    }
-}
-
-struct W9: Widget {
-    var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "g9", provider: P()) { _ in
-            Label2(num: "9", title: "glass in bg")
+        StaticConfiguration(kind: "h16", provider: P()) { _ in
+            Label2(num: "16", title: "glassBG + notRemovable")
                 .containerBackground(for: .widget) { Rectangle().fill(.clear).glassEffect(.clear, in: .rect) }
         }
-        .configurationDisplayName("9 glass in bg")
+        .configurationDisplayName("16 glass+fixed")
         .supportedFamilies([.systemSmall, .systemMedium])
+        .containerBackgroundRemovable(false)
     }
 }
 
-struct W10: Widget {
+struct W17: Widget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "g10", provider: P()) { _ in
-            Label2(num: "10", title: "glass reg in bg")
-                .containerBackground(for: .widget) { Rectangle().fill(.clear).glassEffect(.regular, in: .rect) }
+        StaticConfiguration(kind: "h17", provider: P()) { _ in
+            Label2(num: "17", title: "clear + noMargins")
+                .containerBackground(for: .widget) { Color.clear }
         }
-        .configurationDisplayName("10 glass reg bg")
+        .configurationDisplayName("17 clear+margins")
         .supportedFamilies([.systemSmall, .systemMedium])
+        .contentMarginsDisabled()
     }
 }
 
-struct W11: Widget {
+struct W18: Widget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "g11", provider: P()) { _ in
-            Label2(num: "11", title: "EmptyView bg")
-                .containerBackground(for: .widget) { EmptyView() }
+        StaticConfiguration(kind: "h18", provider: P()) { _ in
+            Label2(num: "18", title: "clear + both")
+                .containerBackground(for: .widget) { Color.clear }
         }
-        .configurationDisplayName("11 empty")
+        .configurationDisplayName("18 clear+both")
         .supportedFamilies([.systemSmall, .systemMedium])
+        .containerBackgroundRemovable(false)
+        .contentMarginsDisabled()
     }
 }
 
-struct W12: Widget {
+struct W19: Widget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "g12", provider: P()) { _ in
-            Label2(num: "12", title: "no containerBG")
+        StaticConfiguration(kind: "h19", provider: P()) { _ in
+            Label2(num: "19", title: "none + notRemovable")
                 .padding(0)
         }
-        .configurationDisplayName("12 none")
+        .configurationDisplayName("19 none+fixed")
         .supportedFamilies([.systemSmall, .systemMedium])
-    }
-}
-
-struct W13: Widget {
-    var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "g13", provider: P()) { _ in
-            Label2(num: "13", title: "style .tint")
-                .containerBackground(.tint, for: .widget)
-        }
-        .configurationDisplayName("13 tint")
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .containerBackgroundRemovable(false)
     }
 }
 
 @main
 struct GlassBundle: WidgetBundle {
-    var body: some Widget { W6(); W7(); W8(); W9(); W10(); W11(); W12(); W13() }
+    var body: some Widget { W14(); W15(); W16(); W17(); W18(); W19() }
 }
