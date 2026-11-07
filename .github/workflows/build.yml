@@ -12,7 +12,7 @@ jobs:
       - name: Select newest Xcode 26
         run: |
           ls -d /Applications/Xcode*.app
-          X=$(ls -d /Applications/Xcode_26*.app | sort -V | tail -1)
+          X=/Applications/Xcode_26.0.app
           echo "Using $X"
           sudo xcode-select -s "$X"
           xcodebuild -version
