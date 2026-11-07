@@ -1,0 +1,38 @@
+name: build
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select newest Xcode 26
+        run: |
+          ls -d /Applications/Xcode*.app
+          X=$(ls -d /Applications/Xcode_26*.app | sort -V | tail -1)
+          echo "Using $X"
+          sudo xcode-select -s "$X"
+          xcodebuild -version
+          xcodebuild -showsdks | grep -i iphoneos
+      - name: Generate project
+        run: |
+          brew install xcodegen
+          xcodegen generate
+      - name: Build (unsigned)
+        run: |
+          xcodebuild -project GlassTest.xcodeproj -target GlassTest -configuration Release -sdk iphoneos \
+            SYMROOT="$PWD/build" CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" build
+      - name: Package IPA
+        run: |
+          APP=build/Release-iphoneos/GlassTest.app
+          ls -R "$APP" | head -50
+          plutil -p "$APP/PlugIns/GlassWidget.appex/Info.plist"
+          otool -l "$APP/PlugIns/GlassWidget.appex/GlassWidget" | grep -A4 LC_BUILD_VERSION
+          mkdir -p out/Payload
+          cp -R "$APP" out/Payload/
+          cd out && zip -qry GlassTest-unsigned.ipa Payload
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GlassTest-unsigned
+          path: out/GlassTest-unsigned.ipa

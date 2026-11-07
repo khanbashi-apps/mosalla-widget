@@ -1,0 +1,42 @@
+name: GlassTest
+options:
+  bundleIdPrefix: om.mosalla
+  deploymentTarget:
+    iOS: "26.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    CODE_SIGNING_ALLOWED: "NO"
+    CODE_SIGNING_REQUIRED: "NO"
+    CODE_SIGN_IDENTITY: ""
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    TARGETED_DEVICE_FAMILY: "1"
+targets:
+  GlassTest:
+    type: application
+    platform: iOS
+    sources: [App]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: om.mosalla.glasstest
+        GENERATE_INFOPLIST_FILE: "YES"
+        INFOPLIST_KEY_UILaunchScreen_Generation: "YES"
+        INFOPLIST_KEY_CFBundleDisplayName: "تجربة الزجاج"
+    dependencies:
+      - target: GlassWidget
+  GlassWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: Widget
+        excludes: [Info.plist]
+    info:
+      path: Widget/Info.plist
+      properties:
+        CFBundleDisplayName: "تجربة الزجاج"
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: om.mosalla.glasstest.widget
