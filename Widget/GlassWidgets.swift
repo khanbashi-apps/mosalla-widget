@@ -1,5 +1,6 @@
 import SwiftUI
 import WidgetKit
+import AppIntents
 
 // تجربة صغيرة: خمس طرق رسمية لخلفية الويدجت، مبنية بـ Xcode 26 الحقيقي.
 
@@ -37,80 +38,62 @@ struct Label2: View {
 }
 
 
-struct W14: Widget {
-    var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "h14", provider: P()) { _ in
-            Label2(num: "14", title: "clear + notRemovable")
-                .containerBackground(for: .widget) { Color.clear }
-        }
-        .configurationDisplayName("14 clear+fixed")
-        .supportedFamilies([.systemSmall, .systemMedium])
-        .containerBackgroundRemovable(false)
+struct GIntent: WidgetConfigurationIntent {
+    static var title: LocalizedStringResource = "تجربة"
+    init() {}
+}
+struct AP: AppIntentTimelineProvider {
+    func placeholder(in context: Context) -> E { E(date: .now) }
+    func snapshot(for configuration: GIntent, in context: Context) async -> E { E(date: .now) }
+    func timeline(for configuration: GIntent, in context: Context) async -> Timeline<E> {
+        Timeline(entries: [E(date: .now)], policy: .after(.now.addingTimeInterval(3600)))
     }
 }
 
-struct W15: Widget {
+// 20) نفس جلاسيفاي بالضبط: AppIntentConfiguration + Color.clear + بدون هوامش
+struct W20: Widget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "h15", provider: P()) { _ in
-            Label2(num: "15", title: "material + notRemovable")
-                .containerBackground(.ultraThinMaterial, for: .widget)
+        AppIntentConfiguration(kind: "k20", intent: GIntent.self, provider: AP()) { _ in
+            Label2(num: "20", title: "Glassify copy")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .containerBackground(Color.clear, for: .widget)
         }
-        .configurationDisplayName("15 material+fixed")
-        .supportedFamilies([.systemSmall, .systemMedium])
-        .containerBackgroundRemovable(false)
-    }
-}
-
-struct W16: Widget {
-    var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "h16", provider: P()) { _ in
-            Label2(num: "16", title: "glassBG + notRemovable")
-                .containerBackground(for: .widget) { Rectangle().fill(.clear).glassEffect(.clear, in: .rect) }
-        }
-        .configurationDisplayName("16 glass+fixed")
-        .supportedFamilies([.systemSmall, .systemMedium])
-        .containerBackgroundRemovable(false)
-    }
-}
-
-struct W17: Widget {
-    var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "h17", provider: P()) { _ in
-            Label2(num: "17", title: "clear + noMargins")
-                .containerBackground(for: .widget) { Color.clear }
-        }
-        .configurationDisplayName("17 clear+margins")
+        .configurationDisplayName("20 مثل جلاسيفاي")
         .supportedFamilies([.systemSmall, .systemMedium])
         .contentMarginsDisabled()
+        .containerBackgroundRemovable(true)
     }
 }
 
-struct W18: Widget {
+// 21) Static + Color.clear
+struct W21: Widget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "h18", provider: P()) { _ in
-            Label2(num: "18", title: "clear + both")
-                .containerBackground(for: .widget) { Color.clear }
+        StaticConfiguration(kind: "k21", provider: P()) { _ in
+            Label2(num: "21", title: "static clear")
+                .containerBackground(Color.clear, for: .widget)
         }
-        .configurationDisplayName("18 clear+both")
+        .configurationDisplayName("21 شفاف")
         .supportedFamilies([.systemSmall, .systemMedium])
-        .containerBackgroundRemovable(false)
+    }
+}
+
+// 22) زجاج سيري مثل جلاسيفاي: خلفية شفافة + طبقة Material داخل المحتوى
+struct W22: Widget {
+    var body: some WidgetConfiguration {
+        AppIntentConfiguration(kind: "k22", intent: GIntent.self, provider: AP()) { _ in
+            ZStack {
+                Rectangle().fill(.ultraThinMaterial)
+                Label2(num: "22", title: "clear + material")
+            }
+            .containerBackground(Color.clear, for: .widget)
+        }
+        .configurationDisplayName("22 سيري")
+        .supportedFamilies([.systemSmall, .systemMedium])
         .contentMarginsDisabled()
-    }
-}
-
-struct W19: Widget {
-    var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "h19", provider: P()) { _ in
-            Label2(num: "19", title: "none + notRemovable")
-                .padding(0)
-        }
-        .configurationDisplayName("19 none+fixed")
-        .supportedFamilies([.systemSmall, .systemMedium])
-        .containerBackgroundRemovable(false)
     }
 }
 
 @main
 struct GlassBundle: WidgetBundle {
-    var body: some Widget { W14(); W15(); W16(); W17(); W18(); W19() }
+    var body: some Widget { W20(); W21(); W22() }
 }

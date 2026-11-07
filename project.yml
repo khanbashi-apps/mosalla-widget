@@ -2,15 +2,15 @@ name: GlassTest
 options:
   bundleIdPrefix: om.mosalla
   deploymentTarget:
-    iOS: "26.0"
+    iOS: "18.0"
 settings:
   base:
     SWIFT_VERSION: "5.0"
     CODE_SIGNING_ALLOWED: "NO"
     CODE_SIGNING_REQUIRED: "NO"
     CODE_SIGN_IDENTITY: ""
-    MARKETING_VERSION: "1.2"
-    CURRENT_PROJECT_VERSION: "3"
+    MARKETING_VERSION: "1.3"
+    CURRENT_PROJECT_VERSION: "4"
     TARGETED_DEVICE_FAMILY: "1"
 targets:
   GlassTest:
@@ -37,6 +37,7 @@ targets:
         CFBundleDisplayName: "تجربة الزجاج"
         NSExtension:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension
+        NSWidgetBackgroundColorName: WidgetBackground
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: om.mosalla.glasstest.widget
